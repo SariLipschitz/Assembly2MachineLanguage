@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 			continue;
 		}
 
-		if (!(f = fopen(fileName,"r+")))
+		if (!(f = fopen(fileName, "r+")))
 		{
 			fprintf(stderr,"Eror unable to open the file\n");
 			return 0;
@@ -100,13 +100,13 @@ int main(int argc, char *argv[])
 		decode(f, line, first_word_in_line, &ic, &dc);
 
 		if (isValid != 1)
-			turn_to_bit(f,line,first_word_in_line);
+			turn_to_bit(f, line, first_word_in_line);
 
 		fclose(f);
 		strtok(fileName, ".");
 		/* turn the ic and dc into astring with tub-to print in the head of the ".ob" file */
 		sprintf(line, "\t%d\t%d", ic, dc); 
-		insertPrint(print_list,line,ic_dc);
+		insertPrint(print_list, line, ic_dc);
 
 		/* all printing function-if there is error the function will print 
 		 * all errors else the function will print to externy and entry 
