@@ -38,11 +38,4 @@ Binary machine code in this program is memory word that contains 10 bits (4 bits
     Keep track of location counter, translate instructions and output into files.
 
 
-## Error types examples
-### typo errors
-![alt text](tests/er1.png)
-### logic errors
-![alt text](tests/er2.png)
-
-
 
