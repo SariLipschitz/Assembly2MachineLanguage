@@ -2,7 +2,7 @@
 
 list* createList(void)
 {
-	list *my_list = (list*) malloc(sizeof(list));
+	list *my_list = (list *) malloc(sizeof(list));
 
 	if (my_list == NULL)
 	{
@@ -15,31 +15,29 @@ list* createList(void)
 	return my_list;
 }
 
-
-void createLableList(void)
+void createLabelList(void)
 {
-	leble_list = (list*)malloc(sizeof(list));
+	label_list = (list *) malloc(sizeof(list));
 
-	if (leble_list == NULL)
+	if (label_list == NULL)
 	{
 		fprintf(stderr, "Not enough allocation found\n");
 		return;
 	}
 	
-	createMyList(leble_list);
+	createMyList(label_list);
 }
 
 
 void createMyList(list *the_list) 
 {
-
-	(*the_list).head = (var_in_list*)malloc(sizeof(var_in_list));
-	(*the_list).tail = (var_in_list*)malloc(sizeof(var_in_list));
+	(*the_list).head = (var_in_list*) malloc(sizeof(var_in_list));
+	(*the_list).tail = (var_in_list*) malloc(sizeof(var_in_list));
 
 	(*(*the_list).head).instruction_var = NULL;
    	(*(* the_list).tail).instruction_var = NULL;	
- 	(*(*the_list).head).lable_var = NULL;
-   	(*(* the_list).tail).lable_var = NULL;
+ 	(*(*the_list).head).label_var = NULL;
+   	(*(* the_list).tail).label_var = NULL;
 	(*(*the_list).head).macro_var = NULL;
    	(*(* the_list).tail).macro_var = NULL;
 	(*(*the_list).head).print_var = NULL;
@@ -49,22 +47,22 @@ void createMyList(list *the_list)
 	
 }
 
-void insertLable(list *list_to_insert, lebels *data) 
+void insertLabel(list *list_to_insert, labels *data) 
 {
-	lebels *l = (lebels*)malloc(sizeof(lebels));
-	(*l).leble_name = (char*)malloc(strlen((*data).leble_name) * sizeof(char));
-	copy_leble(l, (*data));
+	labels *l = (labels*) malloc(sizeof(labels));
+	(*l).label_name = (char *) malloc(strlen((*data).label_name) * sizeof(char));
+	copyLabel(l, (*data));
 
-	if ((*(*list_to_insert).head).lable_var == NULL)
+	if ((*(*list_to_insert).head).label_var == NULL)
 	{
-		(*(*list_to_insert).head).lable_var = l;
+		(*(*list_to_insert).head).label_var = l;
 	}
 
-	if ((*(*list_to_insert).tail).lable_var != NULL)
-		(*(*(*list_to_insert).tail).lable_var).next_leble=l;
+	if ((*(*list_to_insert).tail).label_var != NULL)
+		(*(*(*list_to_insert).tail).label_var).next_label = l;
 
-	(*(*list_to_insert).tail).lable_var = l;
-	(*list_to_insert).count++;
+	(*(*list_to_insert).tail).label_var = l;
+	(*list_to_insert).count ++;
 }
 
 void insertMacro(list *macro_list, char *data, char *name, int index)
@@ -74,20 +72,20 @@ void insertMacro(list *macro_list, char *data, char *name, int index)
 	if (index == 1)
 		errorDoubleMacroName(name, macro_list);
 
-	m = (macros*)malloc(sizeof(macros));
+	m = (macros*) malloc(sizeof(macros));
 	if (!m)
 	{
 		fprintf(stderr, "Not enough allocation found\n");
 		exit(0);
 	}
 
-	if (!((*m).macro_line = (char*)malloc((strlen(data) + 10) * sizeof(char))))
+	if (!((*m).macro_line = (char *) malloc((strlen(data) + 10) * sizeof(char))))
 	{
 		fprintf(stderr, "Not enough allocation found\n");
 		exit(0);
 	}
 
-	if (!((*m).macro_name = (char*)malloc(strlen(name) * sizeof(char))))
+	if (!((*m).macro_name = (char *) malloc(strlen(name) * sizeof(char))))
 	{
 		fprintf(stderr, "Not enough allocation found\n");
 		exit(0);
@@ -107,20 +105,20 @@ void insertMacro(list *macro_list, char *data, char *name, int index)
 		(*(*(*macro_list).tail).macro_var).next_macro = m;
 
 	(*(*macro_list).tail).macro_var = m;
-	(*macro_list).count++;
+	(*macro_list).count ++;
 }
 
-void insertPrint(list *print_list, char *data,printType type)
+void insertPrint(list *print_list, char *data, print_type type)
  {
-	printLine *p;
+	print_line *p;
 
-	if(!(p = (printLine*)malloc(sizeof(printLine))))
+	if (!(p = (print_line*) malloc(sizeof(print_line))))
 	{
 		fprintf(stderr, "Not enough allocation found\n");
 		return;
 	}
 
-	if(!((*p).line = (char*)malloc(strlen(data)*sizeof(char))))
+	if (!((*p).line = (char *) malloc(strlen(data) * sizeof(char))))
 	{
 		fprintf(stderr, "Not enough allocation found\n");
 		return;
@@ -130,16 +128,16 @@ void insertPrint(list *print_list, char *data,printType type)
 	(*p).line = copyString(data);
 	(*p).next_print = NULL;
 
-	if((*(*print_list).head).print_var == NULL)
+	if ((*(*print_list).head).print_var == NULL)
 	{
-		(*(*print_list).head).print_var=p;
+		(*(*print_list).head).print_var =p;
 	}
 
-	if((*(*print_list).tail).print_var != NULL)
+	if ((*(*print_list).tail).print_var != NULL)
 		(*(*(*print_list).tail).print_var).next_print = p;
 
 	(*(*print_list).tail).print_var = p;
-	(*print_list).count++;
+	(*print_list).count ++;
 
 }
 
@@ -147,58 +145,61 @@ void insertInstruction(list *instruction_list, int data)
 {
 	instructions *in;
 
-	if(!(in=(instructions*)malloc(sizeof(instructions))))
+	if (!(in = (instructions*) malloc(sizeof(instructions))))
 	{
-		fprintf(stderr,"Not enough allocation found\n");
+		fprintf(stderr, "Not enough allocation found\n");
 		return;
 	}
-	(*in).next_instruction=NULL;
-	(*in).data=data;
-	if((*(*instruction_list).head).instruction_var==NULL)
+
+	(*in).next_instruction = NULL;
+	(*in).data = data;
+
+	if ((*(*instruction_list).head).instruction_var == NULL)
 	{
-		(*(*instruction_list).head).instruction_var=in;
+		(*(*instruction_list).head).instruction_var = in;
 	}
-	if((*(*instruction_list).tail).instruction_var!=NULL)
-		(*(*(*instruction_list).tail).instruction_var).next_instruction=in;
-	(*(*instruction_list).tail).instruction_var=in;
-	(*instruction_list).count++;
+
+	if ((*(*instruction_list).tail).instruction_var!= NULL)
+		(*(*(*instruction_list).tail).instruction_var).next_instruction = in;
+	(*(*instruction_list).tail).instruction_var = in;
+	(*instruction_list).count ++;
 }
 
-void copy_leble(lebels *target, lebels source)
+void copyLabel(labels *target, labels source)
 {
 	
-	(*target).next_leble = NULL;
-	(*target).leble_name=copyString(source.leble_name);
-	(*target).label_address=source.label_address;
-	(*target).era=source.era; 
+	(*target).next_label = NULL;
+	(*target).label_name = copyString(source.label_name);
+	(*target).label_address = source.label_address;
+	(*target).era = source.era; 
 }
 
 void freeMacroList(list *macro_list)
 {
 	macros *m = (*(*macro_list).head).macro_var;
 
-    	while (m != NULL)
+    while (m != NULL)
 	{
 		free((*m).macro_name);
 		free((*m).macro_line);
 		m = (*m).next_macro;
 		free((*(*macro_list).head).macro_var);
-		(*(*macro_list).head).macro_var = m;
-        
-    	}
+		(*(*macro_list).head).macro_var = m;       
+    }
+
 	freeList(macro_list);
 }
 
 void freeLabelList(list *label_list)
 {
-	lebels *l=(*(*label_list).head).lable_var;
+	labels *l = (*(*label_list).head).label_var;
 
     	while (l != NULL) 
 	{
-		free((*l).leble_name);
-		l = (*l).next_leble;
-		free((*(*label_list).head).lable_var);
-		(*(*label_list).head).lable_var = l; 
+		free((*l).label_name);
+		l = (*l).next_label;
+		free((*(*label_list).head).label_var);
+		(*(*label_list).head).label_var = l; 
 	}
 
 	freeList(label_list);
@@ -220,7 +221,7 @@ void freeInstructionList(list *instruction_list)
 
 void freePrintList(list *print_list)
 {
-	printLine *p = (*(*print_list).head).print_var;
+	print_line *p = (*(*print_list).head).print_var;
 	while (p != NULL) 
 	{
 		free((*p).line);
@@ -233,7 +234,7 @@ void freePrintList(list *print_list)
 }
 
 /*
- *each type of list will free all parts in the type list and in the end "freeList" will free the list itself
+ * seach type of list will free all parts in the type list and in the end "freeList" will free the list itself
  */
 void freeList(list *list)
 {
